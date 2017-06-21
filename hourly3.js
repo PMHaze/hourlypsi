@@ -15,6 +15,11 @@ jQuery(document).ready(function() {
         {psi: 500, pm2_5: 500}
     ];
 
+    // Based on a given PM 2.5 rating, estimate the PSI using the conversion table.
+    // Returns strings in case PM 2.5 exceeds 500 or we are unable to determine it.
+    // Find current PM 2.5 value band and divide PSI bandwidth by PM 2.5 bandwidth.
+    // Use the ratio to scale the offset of the current PM 2.5 value from its band.
+    // Return the rounded sum of the scaled offset and current PSI band minimum.
     function computeEstimatedPSI(pm2_5) {
         if (pm2_5 > 500) {
             // Huge problem!!!
@@ -31,6 +36,9 @@ jQuery(document).ready(function() {
         return "Unable to determine";
     }
 
+    // Get current PM 2.5 values in XML and parse them.
+    // Your NEA API key is needed here.
+    // Update HTML with parsed time, geo coords and PSI.
     function updateHaze() {
         // Based on information on https://www.nea.gov.sg/docs/default-source/api/developer%27s-guide.pdf?sfvrsn=2 (pp. 25-26)
         $.ajax({
