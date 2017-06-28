@@ -18,23 +18,22 @@ function initialize() {
     
     Tabletop.init({
         key: 'YOUR_API_KEY_HERE',
-        callback: function(data, tabletop) {
-            var address,
-                i = 0;
-
-            function mapNextAddress() {
-                address = data[i]['Postal code'] + ' Singapore';
-                console.log(address);
-                codeAddress(address);
-                if (++i < data.length) {
-                    setTimeout(mapNextAddress, 250);
-                }
-            };
-
-            mapNextAddress();
-        },
+        callback: mapCode,
         simpleSheet: true
     })
+}
+
+function mapCode(data, tabletop) {
+    var address, i = 0;
+    function mapNextAddress() {
+        address = 'Singapore ' + data[i]['Postal code'];
+        console.log(address);
+        codeAddress(address);
+        if (++i < data.length) {
+            setTimeout(mapNextAddress, 300);
+        }
+    };
+    mapNextAddress();
 }
 
 function codeAddress(address, centering) {
